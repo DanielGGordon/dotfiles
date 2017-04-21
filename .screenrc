@@ -1,0 +1,27 @@
+# note sure what this one does. Something about color
+attrcolor b ".I"
+
+
+# Tell screen how to set colors. AB = background, AF=foreground
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+
+# Enables use of shift-PgUp and shift-PgDn
+ termcapinfo xterm|xterms|xs|rxvt ti@:te@
+
+#Enable 256 color term
+term xterm-256color
+
+# Cache 30000 lines for scroll back
+defscrollback 99999
+
+hardstatus alwayslastline
+# Very nice tabbed colored hardstatus line
+hardstatus string '%{= Kd} %{= Kd}%-w%{= Kr}[%{= KW}%n %t%{= Kr}]%{= Kd}%+w %-= %{KG} %H%{KW}|%{KY}%101`%{KW}|%D %M %d %Y%{= Kc} %C%A%{-}'
+
+# Hide hardstatus: ctrl-a f
+    bind f eval "hardstatus ignore"
+# Show hardstatus: ctrl-a F
+   bind F eval "hardstatus alwayslastline"
+
+# setting so that vim does not leave text on the console - by Dan G.
+altscreen on

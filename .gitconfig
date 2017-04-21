@@ -1,0 +1,107 @@
+[push]
+        default = simple
+[filter "lfs"]
+        clean = git-lfs clean %f
+        smudge = git-lfs smudge %f
+        required = true
+[core]
+        preloadindex = true
+        fscache = true
+        # This is a .gitignore that sits in my home directory
+        excludesfile = C:/Users/gordon/.gitignore
+        autocrlf = false
+        # editor = atom --wait
+[user]
+        name = Daniel Gordon
+        email = Dgordon8765@gmail.com
+[merge]
+        tool = kdiff3
+        ff = only
+
+[mergetool "kdiff3"]
+        path = C:/Program Files/TortoiseHg/kdiff3.exe
+        keepBackup = false
+        trustExitCode = false
+[alias]
+        st = status -s
+        stu = status -suno # don't show untracked files
+        last = log -1 HEAD
+        cb = checkout -b
+        logsh = "!f() { \
+                        git log --oneline --graph -n 10 --decorate; \
+                }; f"
+        helpmasterreset = checkout -B master origin/master
+        masterreset = "!f() { \
+                        git helpmasterreset; \
+                        git pull origin; \
+                }; f"
+        update = "!f() { \
+                        git add -u; \
+                        git commit --amend; \
+                }; f"
+        ###################################################
+        # Gerrit aliases
+        ###################################################
+        ger = "!f() { \
+                    git push origin --progress HEAD:refs/for/"$1" 2>&1 | tee | grep -oP https://gerrit.it.here.com/[0-9]+ | clip; \
+               }; f"
+        zzzger = "!f() { \
+                    git push origin --progress HEAD:refs/for/"$1" 2>&1 | tee | grep -oP https://gerrit.it.here.com/[0-9]+ | clip; \
+               }; f"
+        ###################################################
+        # Gerrit aliases
+        ###################################################
+        exclude = !sh -c 'echo "$1" >> .git/info/exclude' -
+        refset = "!f() { \
+                    git reset --hard HEAD@{$1}; \
+                }; f"
+        softreset = reset --soft HEAD~1
+        mixedreset = reset --mixed HEAD~1
+        hardreset = reset --hard HEAD~1
+        logr = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --branches=* -n 20
+        ###################################################
+        # Stashing aliases
+        ###################################################
+        sshow = "!f() { git stash show stash^{/$*} -p; }; f"
+        sapply = "!f() { git stash apply stash^{/$*}; }; f"
+        stasha = "!f() { \
+                    git stash apply STASH@{$1}; \
+                }; f"
+        stasho = "!f() { \
+                    git stash show STASH@{$1}; \
+                }; f"
+        ###################################################
+        # Stashing aliases
+        ###################################################
+
+        # Add one line of text to README.md, add, commit. For testing.
+        # README.md must be present in working directory
+        testcom = "!f() { \
+                        echo \"Hello there, this is just a test commit\" >> README.md; \
+                        git add README.md; \
+                        git commit -m \"this is just a test commit\"; \
+                    }; f"
+
+        ####################################################
+        # these tree aliases are for ignoring files locally
+        ignore = update-index --assume-unchanged
+        unignore = update-index --no-assume-unchanged
+        ignored = !git ls-files -v | grep "^[[:lower:]]"
+        ####################################################
+
+        ####### Unstage a file, and remove changes: one command #######
+        undofile = "!f() { \
+                       git reset \"$1\"; \
+                       git checkout \"$1\"; \
+                    }; f"
+        type = "!f() { git add \"*.$1\"; }; f"
+        staged = diff --name-only --cached
+
+
+[rerere]
+        enabled = true
+[merge "ours"]
+        driver = false
+[pull]
+        rebase = true
+
