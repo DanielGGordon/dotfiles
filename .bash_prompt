@@ -1,0 +1,40 @@
+# Regular Colors
+Black="\[\033[0;30m\]"        # Black
+Red="\[\033[0;31m\]"          # Red
+Green="\[\033[0;32m\]"        # Green
+Yellow="\[\033[0;33m\]"       # Yellow
+Blue="\[\033[0;34m\]"         # Blue
+Purple="\[\033[0;35m\]"       # Purple
+Cyan="\[\033[0;36m\]"         # Cyan
+White="\[\033[0;37m\]"        # White
+
+# Bold
+BBlack="\[\033[1;30m\]"       # Black
+BRed="\[\033[1;31m\]"         # Red
+BGreen="\[\033[1;32m\]"       # Green
+BYellow="\[\033[1;33m\]"      # Yellow
+BBlue="\[\033[1;34m\]"        # Blue
+BPurple="\[\033[1;35m\]"      # Purple
+BCyan="\[\033[1;36m\]"        # Cyan
+BWhite="\[\033[1;37m\]"       # White
+
+# make the prompt cool and stuff
+export PS1="\n"
+PS1=$PS1$Yellow #Change to yellow
+PS1="$PS1"'[\w] '
+PS1=$PS1$Cyan #change to Cyan
+PS1="$PS1"'\u'
+PS1=$PS1$Green #change to green
+PS1="$PS1"'@'
+PS1=$PS1$Blue #change to blue
+PS1="$PS1"'\h\n'
+PS1=$PS1$BGreen #change to
+# lamb=$(echo -e "\u03BB ")
+lamb="Yes master? > "
+PS1="$PS1$lamb"
+PS1=$PS1$BYellow
+
+### Even better colors
+# Execute the second line if you want a light background
+sh scripts/mintty-solarized-dark.sh
+# sh scripts/mintty-solarized-light.sh
