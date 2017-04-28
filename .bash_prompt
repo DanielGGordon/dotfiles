@@ -18,6 +18,9 @@ BPurple="\[\033[1;35m\]"      # Purple
 BCyan="\[\033[1;36m\]"        # Cyan
 BWhite="\[\033[1;37m\]"       # White
 
+
+export reset='\033[0m'
+
 # make the prompt cool and stuff
 export PS1="\n"
 PS1=$PS1$Yellow #Change to yellow
@@ -31,8 +34,7 @@ PS1="$PS1"'\h\n'
 PS1=$PS1$BGreen #change to
 # lamb=$(echo -e "\u03BB ")
 lamb="Yes master? > "
-PS1="$PS1$lamb"
-PS1=$PS1$BYellow
+PS1="$PS1$lamb$reset"
 
 ### Even better colors
 # Execute the second line if you want a light background
