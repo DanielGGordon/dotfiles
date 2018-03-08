@@ -1,3 +1,4 @@
+ ~/.vimrc                                                                                                                                                                                                                                                                                                                                           buffers
 " Some parts of this vimrc taken from:
 "   vim.wikia.com/wiki/Example_vmrc
 
@@ -82,13 +83,15 @@ autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
 " The `:set paste` command can be toggled with a hotkey
 " TODO: Have this, or another command, to do pastetoggle, and then go into
 "   insert mode
-set pastetoggle=<F2>
+set pastetoggle=<F3>
 
 " Toggle the line numbers with ^N^N
 :nmap <C-N><C-N> :set invnumber<CR>
 " With some nice coloring
 highlight LineNr term=bold cterm=NONE ctermfg=LightGreen ctermbg=NONE gui=NONE guifg=DarkGreen guibg=NONE
 
+
+:nmap <C-H><C-H> :set relativenumber!<CR>
 " Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
 " which is the default
 map Y y$
@@ -120,4 +123,3 @@ set laststatus=2
 " gd          -> go to declaration of current variable your cursor is on.
 "                jump back by pressing '' or `` or ^o
 " D or d$     -> delte until the end of line
-~
