@@ -1,16 +1,51 @@
+
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
-#Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #SingleInstance
+#InstallMouseHook
+#MaxHotkeysPerInterval 300
 
-;hotkey (CTRL + WIN + z) function (Refresh AHK script in workspace)
-^<#z::
-   Run, "C:\Users\gordon\workspace\firstauto.ahk"
-   Sleep 50
-   Send {enter}
+SetNumlockState, AlwaysOn
+SetCapsLockState, AlwaysOff
+SetScrollLockState, AlwaysOff
+
+;#Persistent
+;SetTimer, CheckIdle, 60000    ; 60 sec / 1 min
+;Return
+
+;CheckIdle:
+;If (A_TimeIdle > 60000)
+;{
+;    Send {RShift}
+;}
+;Return
+
+; hotkey (Meh + Left Click) function (Focus on window under mouse - without sending keystroke)
+^+!LButton:: 
+  MouseGetPos,,, hwnd 
+  WinActivate, ahk_id %hwnd%
+Return  
+
+
+
+
+; hotkey (SUPER2 + z) function (Refresh AHK script in workspace)
+^+!z::
+  Send ^s
+  Run, "C:\Users\gordon\workspace\firstauto.ahk"
+  Sleep 200
+  Send {enter}
 Return
-;
+
+; hotkey (SUPER2 + z) function (Refresh AHK script in workspace)
+^+!x::
+  Send ^s
+  Run, "C:\Users\gordon\workspace\dictionary.ahk"
+  Sleep 200
+  Send {enter}
+Return
+
 ; ############################# MAPPING REFERENCE #############################
 ; ^ = Control Key
 ; Tab = Tab
@@ -32,7 +67,6 @@ Return
 ;   Send {enter}   // will send the enter key
 ; #############################################################################
 
-
 ; ################################## EXAMPLES #################################
 ;
 ; 1. Run some arbitrary program
@@ -42,91 +76,45 @@ Return
 
 ; ################################ OPENING APPS ###############################
 
-;hotkey (ALT + WIN + C) function (Open Calculator)
-!<#c::Run calc.exe
+; hotkey (ALT + WIN + C) function (Open Calculator)
+^#c::Run, calc.exe
 
-;hotkey (WIN + V) function (Open VPN Apps)
-<#v::
+; hotkey (WIN + V) function (Open VPN Apps)
+#v::
     Run, "C:\Program Files (x86)\Symantec\VIP Access Client\VIPUIManager.exe"
     Sleep 150
     Run, "C:\Program Files (x86)\Cisco\Cisco AnyConnect Secure Mobility Client\vpnui.exe"
 Return
 
-;hotkey (CTRL + WIN + j) function (Open Git Bash)
+; hotkey (CTRL + WIN + j) function (Open Git Bash)
 ^<#j:: Run, "C:\Program Files\Git\git-bash.exe"
-
-; #############################################################################
 
 ; ########################### CHROME RELATED HOTKEYS ###########################
 
-; Cannot properly map anything to "^Tab". For some reason, it always adds a shift
+; hotkey (SHIFT + MOUSE_BACK) function (Go to previous tab)
 +XButton1:: Send {LCtrl down}{LShift down}{Tab}{LCtrl up}{LShift up}
+; hotkey (SHIFT + MOUSE_FORWARD) function (Go to next tab)
 +XButton2::Send {LCtrl down}{Tab}{LCtrl up}
 
-; Open new tab in chrome and paste link from clipboard
-^<#x::
-  Send ^C
-  Sleep 50
-  Send #2
-  Sleep 50
-  Send ^t
-  sleep 50
-  Send ^l
-  sleep 50  
-  Send ^v
-  sleep 50
-  Send {Enter}
-Return
+; Meh + V, copy highlighted text, open new chrome tab, and go.
+^+!#z::
+{
+ Send, ^c
+ Sleep 50
+ Run, http://www.google.com/search?q=%clipboard%
+ Return
+ ; TODO - if context is a terminal, if so, use ctfrl + insert.
+}
 
-;; Jenkins Launch Arbitrary Shell Command
-;^Xbutton2::
-;  send {^l}
-;  SendRaw {https://cme-pmob.jenkins.release.in.here.com/job/GDF_EXTRACTION/job/Run%20Arbitrary%20Shell%20Command/build?delay=0sec}
-;  send {enter}
-;Return
 
 ; #############################################################################
 
-
-;############################### TERMINAL HOTKEYS #############################
-
-; ################### Code Generators ####################
-::listgen::val sampleList = Vector("This","is","a","vector","of","strings")
-::forcomp::
-    Send val sampleCollection = List("sample","hi")`n
-    Send val someVar = for {{}`n
-    Send     string <- sampleCollection`n
-    Send     if string == "hi"{Down}{Space}yield string
-Return
-
-::shebang::{#}{!}/bin/bash
-::scalalsgrep::val javaProcs = ("ls" {#}| "grep sbt").lineStream.toList
-::gitger::git push origin HEAD:refs/for/master
-
-; Create case match template
-;::casematches::
-;(
-;def listAnalysis(list: List[Any]) = list match {
-;  case Nil => "empty"
-;  case 'a' :: tail => "starting by 'a'"
-;  case (head:Int) :: _ if head > 3 => "starting by an int greater than 3"
-;  case (head:Int) :: _ => "starting by an int"
-;  case _ => "whatever"
-;}
-;)
-
-::Teusday::Tuesday
-::btw::By the way
-
-^+d::
-    Send, logout
-    Send {Enter}
-Return
-
-;##########################################################################
+;CapsLock::LCtrl
+;LCtrl::CapsLock
 
 ; ################### MOUSE SENSITIVITY SETTINGS #########################
 
+; hotkey (CTRL + WIN + m) function(Set mouse speed to 10)
 ^<#m::
   ; 'UInt' is the type of the first parm
   ; The first param VALUE is "0x71", which is just hexidecimal for 113
@@ -135,28 +123,54 @@ Return
   DllCall("SystemParametersInfo", UInt, 0x71, UInt, 0, UInt, 10, UInt, 0)
 Return
 
-; When Roccat is plugged in 
+; hotkey (CTRL + WIN + n) function(Set mouse speed to 4)
 ^<#n::
   DllCall("SystemParametersInfo", UInt, 0x71, UInt, 0, UInt, 4, UInt, 0)
 Return
+
 ;##########################################################################
 
 ; ################### AUTO HOT KEY IDEAS #################
 ;
-; Remap ^] to +tab in gmail so I can just use +tab to indent a list
-; Remap "casematch + tab" to generate a case match template
-;
+; Moving the Mouse
 
-; Type the date using "]d"
-:*:]d::  ; This hotstring replaces "]d" with the current date and time via the commands below.
-FormatTime, CurrentDateTime,, M/d/yyyy h:mm tt  ; It will look like 9/1/2005 3:53 PM
-SendInput %CurrentDateTime%
+; hotkey (CTRL + SHIFT + q) function(Move the mouse 2560 pixels over to the right)
+^+!#F14::MouseMove, 2560, 0, 2, R
+
+; hotkey (CTRL + SHIFT + q) function(Move the mouse 2560 pixels over to the right)
+^+!#F13::MouseMove, -2560, 0, 2, R
+
+^+!#F15::SendRaw, %Clipboard%
+^+!F12::SendRaw, %Clipboard%
+
+; Make F9 the "SUPER" key
+; If you need F9, just do control + F9
+; Ideally, this would actually be something like F18 - a button that never gets used.
+; I believe this can be done on the new kinesis advantage versions (2015)
+; ^F9:: send {F9}
+
+
+
+; Open current page in inCognito mode
+^+!#b::
+  send ^l
+  sleep 100
+  send ^c
+  sleep 100
+  send ^+{n}
+  sleep 300
+  send ^l
+  sleep 100
+  send ^v
+  send {Enter}
 return
-  
-; ########################### CAPSLOCK REMAPPING ###########################
-; >^ is right control
-; Remap Capslock because you never use it
-; Now Capslock can be used as control
-; >^Capslock::Capslock
-; Capslock::Ctrl
-; ##########################################################################
+
+
+^+!#F11::WinMove, A,, 0, 0,1430,1280
+^+!#F8::WinMove, A,, 0, 0,1300,700
+^+!#F9::WinMove, A,, 0, 1280,1430,1280
+
+; --IDEAS. QMK included--
+
+;Custom window management. 1/3rd of size, etc.
+;all caps and _ mode. for NT_SOME_TABLE
