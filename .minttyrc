@@ -1,0 +1,12 @@
+BoldAsFont=no
+RightClickAction=extend
+Term=xterm-256color
+FontHeight=10
+FontIsBold=no
+Font=DejaVuSansMono NF
+CursorType=block
+ScrollbackLines=9999999
+ForegroundColour=255,255,255
+AllowBlinking=yes
+Transparency=medium
+ClipShortcuts=yes
